@@ -2,30 +2,117 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Catálogo Laravel</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@yield('title', 'Movie Catalog')</title>
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2980b9;
+            --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            --card-bg: #ffffff;
+            --text-main: #333;
+            --text-muted: #7f8c8d;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: var(--bg-gradient);
+            background-attachment: fixed;
+            margin: 0;
+            min-height: 100vh;
+            color: var(--text-main);
+        }
+
+        /* Navegación */
+        nav {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(5px);
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--text-main);
+            font-weight: 600;
+            margin-left: 20px;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--primary-color);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary-color);
+        }
+
+        /* Contenedor Principal */
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        /* Estilos de Tarjeta (Reutilizables) */
+        .main-card {
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Botones Globales */
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: none;
+            text-align: center;
+        }
+
+        .btn-primary { background: var(--primary-color); color: white; }
+        .btn-primary:hover { background: var(--secondary-color); transform: scale(1.02); }
+
+        /* Estilos para formularios (dentro de las secciones) */
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-weight: 600; }
+        input, select, textarea {
+            width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px;
+            font-size: 16px; box-sizing: border-box;
+        }
+    </style>
 </head>
-<body class="bg-gray-100 min-h-screen flex flex-col">
-    <nav class="bg-slate-900 text-white p-4 shadow-lg">
-        <div class="container mx-auto flex justify-between">
-            <a href="{{ route('movies.index') }}" class="text-xl font-bold">🎬 MovieApp</a>
-            <div class="space-x-4">
-                <a href="{{ route('movies.index', ['genre' => 'Sci-Fi']) }}">Sci-Fi</a>
-                <a href="{{ route('movies.index', ['genre' => 'Drama']) }}">Drama</a>
-                <a href="{{ route('movies.create') }}" class="bg-blue-600 px-3 py-1 rounded">Añadir</a>
-            </div>
-        </div>
-    </nav>
+<body>
 
-    <main class="container mx-auto mt-10 p-4 flex-grow">
-        @if(session('error'))
-            <div class="bg-red-500 text-white p-3 mb-4 rounded">{{ session('error') }}</div>
-        @endif
+<nav>
+    <div class="logo">🎬 MovieApp</div>
+    <div>
+        <a href="{{ route('movies.index') }}">Inicio</a>
+        <a href="{{ route('movies.create') }}">Añadir Película</a>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="main-card">
         @yield('content')
-    </main>
+    </div>
+</div>
 
-    <footer class="bg-slate-900 text-white text-center p-4 mt-10">
-        © {{ date('Y') }} - Catálogo Personal de Películas
-    </footer>
 </body>
 </html>
